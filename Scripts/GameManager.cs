@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
             GenCompass();
             TimePassed += Time.deltaTime;
         }
-        if(TimePassed > 2f) {
+        if(TimePassed > 5f) {
             DoOnetime = false;
             TimePassed = 0;
             DesCompass();
@@ -64,6 +64,9 @@ public class GameManager : MonoBehaviour
                 if(TreasureCompass[i].GetChild(j).name == name) {
                     TreasureCompass[i].GetChild(j).gameObject.SetActive(true);
                 }
+                else {
+                    TreasureCompass[i].GetChild(j).gameObject.SetActive(false);
+                }
             }
 
             x = exit.position.x - players[i].position.x;
@@ -76,6 +79,9 @@ public class GameManager : MonoBehaviour
             for(int j = 0; j < ExitCompass[i].childCount; j ++) {
                 if(ExitCompass[i].GetChild(j).name == name) {
                     ExitCompass[i].GetChild(j).gameObject.SetActive(true);
+                }
+                else {
+                    ExitCompass[i].GetChild(j).gameObject.SetActive(false);
                 }
             }
         }
