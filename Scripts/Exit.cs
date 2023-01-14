@@ -38,7 +38,7 @@ public class Exit : MonoBehaviour
         other.gameObject.GetComponent<Animator>().SetBool("Yeahh", true);
         other.gameObject.GetComponent<PlayerMove>().StunnedCheck = true;
         Debug.Log(other.name + "wins!!");
-        DelayDo(3.5f, () => { 
+        DelayDo(2.5f, () => { 
             other.gameObject.GetComponent<Animator>().SetBool("Yeahh", false);
             other.gameObject.GetComponent<PlayerMove>().StunnedCheck = false;
             OnWinnerDetermine eventParam = new OnWinnerDetermine();

@@ -5,36 +5,33 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [System.Serializable]
-    struct Points {
-        public Transform[] Pos;
-    }
-    [SerializeField] private Points[] SpawnPoints;
-    
-    public Transform treasure;
+
+    [SerializeField] private Transform[] positions;
+    [SerializeField] private Transform[] players;
+    [SerializeField] private Transform treasure, exit;
     void Start()
     {
-        // set the position of players in random
-        int PointId = Random.Range(0, SpawnPoints.Length);
-        int size = SpawnPoints[PointId].Pos.Length;
-        for(int i = 0; i < size; i ++) {
-            int id = Random.Range(0, SpawnPoints[PointId].Pos.Length);
-            Transform tmp = SpawnPoints[PointId].Pos[id];
-            SpawnPoints[PointId].Pos[id] = SpawnPoints[PointId].Pos[i];
-            SpawnPoints[PointId].Pos[i] = tmp;
+        // randomly shuffle an array positions
+        int PosLen = positions.Length;
+        int PosID = Random.Range(0, PosLen);
+        
+        Transform[] children = positions[PosID].GetComponentsInChildren<Transform>();
+        for (int i = 1; i < children.Length; i ++) {
+            int RandIndex = Random.Range(1, children.Length);
+            Transform tmp = children[i];
+            children[i] = children[RandIndex];
+            children[RandIndex] = tmp;
         }
-
-        for(int i = 0; i < PlayerManager.Instance.Players.Length; i ++) {
-            PlayerManager.Instance.Players[i].transform.position = SpawnPoints[PointId].Pos[i].position;
+        
+        // randomly set the position of players
+        for(int i = 0 ; i < players.Length; i ++) {
+            players[i].position = children[i + 1].position;
         }
-        // set the position of treasure in random
-        treasure.position = SpawnPoints[PointId].Pos[size - 1].position;
+        
+        // randomly set the position of treasure
+        treasure.position = children[children.Length - 2].position;
+
+        // randomly set the position of treasure
+        exit.position = children[children.Length - 1].position;
     }
-
-
-    void Update()
-    {
-
-    }
-
 }
