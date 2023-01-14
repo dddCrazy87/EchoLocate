@@ -16,6 +16,7 @@ public class PlayerMove : MonoBehaviour
     void Update() {
         transform.gameObject.GetComponent<Animator>().SetBool("Shift", false);
         if(!StunnedCheck) {
+            
             // detect direction
             float up, down, left, right;
             up    = Input.GetKey(upKeyCode)    ? +1f : 0f;
@@ -26,6 +27,15 @@ public class PlayerMove : MonoBehaviour
             if((up == 1f) || (down == -1f) || (left == -1f) || (right == 1f)) {
                 transform.gameObject.GetComponent<Animator>().SetBool("Shift", true);
             }
+
+            // to make player flip
+            if ((left+right) == +1f) {
+                GetComponent<SpriteRenderer>().flipX = false;
+            }
+            if ((left+right) == -1f) {
+                GetComponent<SpriteRenderer>().flipX = true;
+            }
+            
             // movement
             Vector3 movement = new Vector3((left+right)*MoveSpeed*Time.deltaTime, (up+down)*MoveSpeed*Time.deltaTime, 0);
             transform.Translate(movement);
